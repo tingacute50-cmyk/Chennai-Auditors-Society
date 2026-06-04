@@ -205,14 +205,22 @@
             text-transform: uppercase;
             border-bottom: 1px solid var(--border);
         }
-        .candidate-table { width: 100%; border-collapse: collapse; }
-        .candidate-table th, .candidate-table td { padding: 10px 18px; text-align: left; font-size: 13px; }
-        .candidate-table th { background: rgba(0,0,0,0.2); color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
-        .candidate-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        
+        /* TABLE & FIX FOR TEXT VISIBILITY */
+        .candidate-table { width: 100%; border-collapse: collapse; background: #ffffff; }
+        .candidate-table th { background: #1e293b; color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
+        .candidate-table th, .candidate-table td { padding: 12px 18px; text-align: left; font-size: 14px; }
+        
+        /* Default style for regular members: Dark text over light backgrounds */
+        .candidate-table tr { border-bottom: 1px solid #e2e8f0; color: #1e293b; font-weight: 500; }
         .candidate-table tr:last-child { border-bottom: none; }
-        .candidate-table tr.leader { background: rgba(34, 197, 94, 0.05); }
-        .candidate-table tr.leader td:first-child { color: var(--success); font-weight: 600; }
-        .vote-count { font-family: monospace; font-size: 14px; font-weight: 700; text-align: right; }
+        
+        /* Specific contrast highlight rule for the leader */
+        .candidate-table tr.leader { background: #0f172a; color: #ffffff; }
+        .candidate-table tr.leader td:first-child { color: var(--success); font-weight: 700; }
+        .candidate-table tr.leader .vote-count { color: #ffffff; }
+        
+        .vote-count { font-family: monospace; font-size: 15px; font-weight: 700; text-align: right; color: #334155; }
 
         /* VOTE METRICS FOOTER */
         .voter-footer {
