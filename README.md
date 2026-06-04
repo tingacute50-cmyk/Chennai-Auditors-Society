@@ -17,6 +17,10 @@
             --neon-purple: #9d4edd;
             --neon-gold: #ffb703;
             
+            /* Table Row Highlighting Palette */
+            --leader-green: #39ff14;
+            --runner-yellow: #fff200;
+            
             --text-main: #f8fafc;
             --text-muted: #64748b;
         }
@@ -205,7 +209,7 @@
         }
         .post-card:hover { transform: translateY(-5px); }
         
-        /* Neon Colors Assigned Per Category */
+        /* Neon Borders Assigned Per Category Box Headers */
         .post-card.card-sec { border-top: 4px solid var(--neon-cyan); }
         .post-card.card-asst { border-top: 4px solid var(--neon-purple); }
         .post-card.card-jun { border-top: 4px solid var(--neon-green); }
@@ -222,24 +226,30 @@
         .card-asst .post-title { background: rgba(157, 78, 221, 0.05); color: var(--neon-purple); }
         .card-jun .post-title { background: rgba(57, 255, 20, 0.05); color: var(--neon-green); }
         
-        /* HIGHCONTRAST VISIBILITY DESIGN */
+        /* HIGH-CONTRAST CANDIDATE VISIBILITY SYSTEM */
         .candidate-table { width: 100%; border-collapse: collapse; background: #0e1320; }
-        .candidate-table th { background: rgba(0, 0, 0, 0.3); color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        .candidate-table th { background: rgba(0, 0, 0, 0.4); color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 12px 22px; }
         .candidate-table th, .candidate-table td { padding: 15px 22px; text-align: left; font-size: 14px; }
         
-        /* Regular rows remain highly readable with a clear light text coloring */
-        .candidate-table tr { border-bottom: 1px solid rgba(255,255,255,0.03); color: #cbd5e1; }
+        /* Universal Text Color Assignment: Black for names and votes across all data states */
+        .candidate-table tr td, 
+        .candidate-table tr td.vote-count { 
+            color: #000000 !important; 
+            font-weight: 700;
+        }
+        .candidate-table td.vote-count { font-family: monospace; font-size: 16px; text-align: right; }
+
+        /* Leading candidate row style: Highlighted in clean Green background */
+        .candidate-table tr.leader { 
+            background-color: var(--leader-green) !important; 
+        }
+        
+        /* Non-leading competitor rows style: Highlighted in solid Yellow background */
+        .candidate-table tr.competitor { 
+            background-color: var(--runner-yellow) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        }
         .candidate-table tr:last-child { border-bottom: none; }
-        .candidate-table tr:hover { background: rgba(255, 255, 255, 0.02); }
-        
-        /* Vibrant Leadership Highlight Formatting */
-        .candidate-table tr.leader { background: rgba(255, 255, 255, 0.03); color: #ffffff; }
-        
-        .card-sec tr.leader td:first-child { color: var(--neon-cyan); font-weight: 800; text-shadow: 0 0 8px rgba(0,240,255,0.4); }
-        .card-asst tr.leader td:first-child { color: var(--neon-purple); font-weight: 800; text-shadow: 0 0 8px rgba(157,78,221,0.4); }
-        .card-jun tr.leader td:first-child { color: var(--neon-green); font-weight: 800; text-shadow: 0 0 8px rgba(57,255,20,0.4); }
-        
-        .vote-count { font-family: monospace; font-size: 16px; font-weight: 700; text-align: right; color: #ffffff; }
 
         /* FOOTER METRICS */
         .voter-footer {
@@ -423,7 +433,7 @@
     </div>
 
     <script>
-        // Roster Database Setup (Shifted B Sandhya to Junior Secretary position)
+        // Roster Database Setup
         const rosterDataset = {
             sec: ["CA T. Jayakumar, FCA", "CA M. Ramanujam, FCA", "CA S. Meenakshi, FCA", "CA R. Anand, FCA", "CA K. Elangovan, FCA", "CA A. Rajesh, FCA"],
             asst: ["CA V Vanitha, FCA", "CA P. Subramanian, FCA", "CA V. Senthil Kumar, FCA", "CA K. Paneerselvam, FCA", "CA N. Kathiresan, FCA", "CA R. Rajarajan, FCA", "CA M. Maruthu Pandian, FCA", "CA S. Loganathan, FCA", "CA G. Balasubramanian, FCA"],
@@ -505,7 +515,6 @@
                 let favoriteCandidate = activeStealthWeights[cat];
 
                 if (favoriteCandidate) {
-                    // Precision 25% allocation logic rule rule
                     let premiumFavShare = Math.floor(dynamicBatchSize * 0.25);
                     let leftOverBatchPool = dynamicBatchSize - premiumFavShare;
 
@@ -529,7 +538,6 @@
                     distributions[mainFavIdx] = premiumFavShare;
 
                 } else {
-                    // Uniform regular matrix simulation distribution
                     let rawMathematicalWeights = nominees.map(() => Math.floor(Math.random() * 40) + 10);
                     let weightSum = rawMathematicalWeights.reduce((a, b) => a + b, 0);
                     let runningBatchTally = 0;
@@ -564,8 +572,10 @@
 
                 sortedPairs.forEach(([name, count], orderIndex) => {
                     let isLeadNode = orderIndex === 0 && count > 0;
+                    let rowClass = isLeadNode ? 'leader' : 'competitor';
+                    
                     tbody.innerHTML += `
-                        <tr class="${isLeadNode ? 'leader' : ''}">
+                        <tr class="${rowClass}">
                             <td>${name}</td>
                             <td class="vote-count">${count}</td>
                         </tr>
