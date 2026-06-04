@@ -2,24 +2,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chennai Auditors Society - Home & Premium Election Live</title>
+    <title>Chennai Auditors Society - Elite Live Election Dashboard</title>
     <style>
         :root {
-            --bg-deep: #090d16;
-            --bg-surface: #111726;
-            --bg-card: #1b2336;
-            --border-glow: #24324f;
-            --accent-cyan: #06b6d4;
-            --accent-neon: #00f5d4;
-            --success-green: #10b981;
-            --alert-red: #f43f5e;
-            --text-main: #f1f5f9;
+            --bg-deep: #05050a;
+            --bg-surface: #0b0f19;
+            --bg-card: #121826;
+            --border-glow: #1e293b;
+            
+            /* High-Vibrancy Neon Palette */
+            --neon-cyan: #00f0ff;
+            --neon-magenta: #ff007f;
+            --neon-green: #39ff14;
+            --neon-purple: #9d4edd;
+            --neon-gold: #ffb703;
+            
+            --text-main: #f8fafc;
             --text-muted: #64748b;
-            --gold-premium: #f59e0b;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background-color: var(--bg-deep);
             color: var(--text-main);
             margin: 0;
@@ -27,45 +30,46 @@
             overflow-x: hidden;
         }
 
-        /* PREMIUM DYNAMIC TICKER */
+        /* LIVE TICKER - DYNAMIC NEON COLOR */
         .ticker-wrap {
             width: 100%;
-            background: #030712;
-            border-bottom: 1px solid var(--border-glow);
+            background: #000000;
+            border-bottom: 2px solid var(--neon-magenta);
             padding: 12px 0;
             box-sizing: border-box;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
         }
         .ticker {
             display: flex;
             white-space: nowrap;
-            animation: marquee-scroll 30s linear infinite;
+            animation: marquee-scroll 25s linear infinite;
         }
         .ticker-item {
             display: inline-block;
             padding: 0 3rem;
             font-size: 13px;
-            font-weight: 500;
-            color: var(--text-main);
+            font-weight: 600;
             letter-spacing: 0.5px;
         }
         .ticker-item span {
-            color: var(--accent-cyan);
-            font-weight: 700;
+            color: var(--neon-magenta);
             margin-right: 8px;
+            text-shadow: 0 0 5px var(--neon-magenta);
         }
         @keyframes marquee-scroll {
             0% { transform: translate3d(100%, 0, 0); }
             100% { transform: translate3d(-100%, 0, 0); }
         }
 
-        /* CLEAN TOP NAVBAR */
+        /* GLOWING NAVBAR */
         nav {
             background-color: var(--bg-surface);
-            border-bottom: 1px solid var(--border-glow);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
         .brand {
             display: flex;
@@ -73,40 +77,45 @@
             gap: 15px;
         }
         .brand-logo {
-            width: 4px;
-            height: 28px;
-            background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-neon));
-            border-radius: 2px;
+            width: 6px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-magenta));
+            border-radius: 3px;
+            box-shadow: 0 0 10px var(--neon-cyan);
         }
         .brand h1 {
             margin: 0;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            color: #ffffff;
+            background: linear-gradient(45deg, #ffffff, var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .btn-login {
             background: transparent;
-            border: 1px solid var(--accent-cyan);
-            color: var(--accent-cyan);
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
             padding: 10px 24px;
-            border-radius: 6px;
+            border-radius: 30px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            transition: all 0.25s ease-in-out;
+            text-shadow: 0 0 5px var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+            transition: all 0.3s ease;
         }
         .btn-login:hover {
-            background: rgba(6, 182, 212, 0.1);
-            color: #ffffff;
-            border-color: #ffffff;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+            background: var(--neon-cyan);
+            color: #000;
+            text-shadow: none;
+            box-shadow: 0 0 20px var(--neon-cyan);
         }
 
-        /* CORE GRID LAYOUT */
+        /* GRID SYSTEM */
         .main-layout {
             max-width: 1440px;
             margin: 40px auto;
@@ -116,54 +125,58 @@
             gap: 30px;
         }
         .welcome-box {
-            background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-card) 100%);
-            border: 1px solid var(--border-glow);
+            background: linear-gradient(135deg, #111625 0%, #070a12 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--neon-cyan);
             border-radius: 12px;
             padding: 35px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .welcome-box h2 { margin-top: 0; color: #fff; font-size: 26px; font-weight: 700; }
+        .welcome-box h2 { margin-top: 0; color: #fff; font-size: 26px; font-weight: 800; }
         .welcome-box p { color: #94a3b8; line-height: 1.7; margin: 0; font-size: 15px; }
         
         .deadline-box {
             background: var(--bg-surface);
             border: 1px solid var(--border-glow);
+            border-top: 4px solid var(--neon-gold);
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .deadline-box h3 { margin-top: 0; color: var(--gold-premium); border-bottom: 1px solid var(--border-glow); padding-bottom: 12px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;}
+        .deadline-box h3 { margin-top: 0; color: var(--neon-gold); border-bottom: 1px solid var(--border-glow); padding-bottom: 12px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 5px rgba(255, 183, 3, 0.3);}
         .deadline-list { list-style: none; padding: 0; margin: 0; }
-        .deadline-list li { margin-bottom: 20px; font-size: 13px; border-left: 2px solid var(--alert-red); padding-left: 14px; }
+        .deadline-list li { margin-bottom: 20px; font-size: 13px; border-left: 2px solid var(--neon-magenta); padding-left: 14px; }
         .deadline-list li strong { color: #fff; display: block; font-size: 14px; margin-bottom: 4px; }
 
-        /* ADMINISTRATIVE MANAGEMENT SUITE */
+        /* ADMINISTRATIVE MANAGEMENT TERMINAL */
         .admin-panel {
-            background: #0d1527;
-            border: 1px solid var(--accent-cyan);
+            background: #090e1a;
+            border: 2px dashed var(--neon-cyan);
             border-radius: 12px;
             padding: 30px;
             margin-bottom: 30px;
             display: none;
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
         }
-        .admin-panel h3 { margin-top: 0; color: var(--accent-cyan); font-size: 18px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px; }
+        .admin-panel h3 { margin-top: 0; color: var(--neon-cyan); font-size: 18px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; text-shadow: 0 0 5px var(--neon-cyan); }
         .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 25px;}
-        .admin-select-box label { display: block; font-size: 11px; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .admin-select-box select { width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border-glow); color: #fff; border-radius: 6px; outline: none; }
+        .admin-select-box label { display: block; font-size: 11px; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; }
+        .admin-select-box select { width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border-glow); color: #fff; border-radius: 6px; outline: none; font-weight: 600; }
+        .admin-select-box select:focus { border-color: var(--neon-cyan); }
         .admin-actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
-        .btn-refresh { background: linear-gradient(90deg, var(--success-green), #059669); color: #fff; font-weight: 700; padding: 14px 35px; border: none; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2); }
-        .btn-refresh:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
-        .btn-logout { background: var(--alert-red); color: #fff; font-weight: 600; padding: 14px 25px; border: none; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-refresh { background: linear-gradient(90deg, #00f0ff, #0077ff); color: #fff; font-weight: 800; padding: 15px 40px; border: none; border-radius: 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); transition: all 0.2s; }
+        .btn-refresh:hover { transform: scale(1.03); box-shadow: 0 0 25px var(--neon-cyan); }
+        .btn-logout { background: transparent; border: 2px solid var(--neon-magenta); color: var(--neon-magenta); font-weight: 700; padding: 13px 30px; border-radius: 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+        .btn-logout:hover { background: var(--neon-magenta); color: #fff; box-shadow: 0 0 20px var(--neon-magenta); }
 
-        /* MODERN ELECTION CARDS & STYLISH TABLES */
+        /* STYLISH COLORFUL ELECTION PANELS */
         .election-container {
             background: var(--bg-surface);
             border: 1px solid var(--border-glow);
             border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
         }
         .election-header {
             display: flex;
@@ -171,11 +184,11 @@
             align-items: center;
             border-bottom: 1px solid var(--border-glow);
             padding-bottom: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
-        .election-header h2 { margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 800; }
-        .live-badge { background: rgba(244, 63, 94, 0.1); border: 1px solid var(--alert-red); color: var(--alert-red); font-size: 11px; padding: 6px 14px; border-radius: 20px; font-weight: 700; letter-spacing: 1px; animation: glow-pulse 2s infinite; }
-        @keyframes glow-pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+        .election-header h2 { margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 900; }
+        .live-badge { background: rgba(255, 0, 127, 0.1); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); font-size: 11px; padding: 6px 16px; border-radius: 20px; font-weight: 800; letter-spacing: 1.5px; animation: glow-pulse 1.5s infinite; text-shadow: 0 0 5px var(--neon-magenta); }
+        @keyframes glow-pulse { 0% { opacity: 0.6; box-shadow: 0 0 5px rgba(255,0,127,0.2); } 50% { opacity: 1; box-shadow: 0 0 15px rgba(255,0,127,0.5); } 100% { opacity: 0.6; box-shadow: 0 0 5px rgba(255,0,127,0.2); } }
         
         .results-grid {
             display: grid;
@@ -185,58 +198,70 @@
         .post-card {
             background: var(--bg-card);
             border: 1px solid var(--border-glow);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
         }
+        .post-card:hover { transform: translateY(-5px); }
+        
+        /* Neon Colors Assigned Per Category */
+        .post-card.card-sec { border-top: 4px solid var(--neon-cyan); }
+        .post-card.card-asst { border-top: 4px solid var(--neon-purple); }
+        .post-card.card-jun { border-top: 4px solid var(--neon-green); }
+
         .post-title {
-            background: #222d44;
-            padding: 16px 20px;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--accent-neon);
+            padding: 18px 22px;
+            font-size: 15px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             border-bottom: 1px solid var(--border-glow);
         }
+        .card-sec .post-title { background: rgba(0, 240, 255, 0.05); color: var(--neon-cyan); }
+        .card-asst .post-title { background: rgba(157, 78, 221, 0.05); color: var(--neon-purple); }
+        .card-jun .post-title { background: rgba(57, 255, 20, 0.05); color: var(--neon-green); }
         
-        /* Table Styles Fix: Clean Dark contrast design making ALL names visible perfectly */
-        .candidate-table { width: 100%; border-collapse: collapse; }
-        .candidate-table th { background: rgba(3, 7, 12, 0.4); color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .candidate-table th, .candidate-table td { padding: 14px 20px; text-align: left; font-size: 14px; }
+        /* HIGHCONTRAST VISIBILITY DESIGN */
+        .candidate-table { width: 100%; border-collapse: collapse; background: #0e1320; }
+        .candidate-table th { background: rgba(0, 0, 0, 0.3); color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        .candidate-table th, .candidate-table td { padding: 15px 22px; text-align: left; font-size: 14px; }
         
-        /* Dark surface baseline rows: clear crisp contrast for all names */
-        .candidate-table tr { border-bottom: 1px solid var(--border-glow); color: #cbd5e1; }
+        /* Regular rows remain highly readable with a clear light text coloring */
+        .candidate-table tr { border-bottom: 1px solid rgba(255,255,255,0.03); color: #cbd5e1; }
         .candidate-table tr:last-child { border-bottom: none; }
-        .candidate-table tr:hover { background: rgba(255,255,255,0.02); }
+        .candidate-table tr:hover { background: rgba(255, 255, 255, 0.02); }
         
-        /* Premium leadership state row modification */
-        .candidate-table tr.leader { background: rgba(6, 182, 212, 0.08); color: #ffffff; }
-        .candidate-table tr.leader td:first-child { color: var(--accent-neon); font-weight: 700; }
-        .candidate-table tr.leader .vote-count { color: #ffffff; font-weight: 800; }
+        /* Vibrant Leadership Highlight Formatting */
+        .candidate-table tr.leader { background: rgba(255, 255, 255, 0.03); color: #ffffff; }
         
-        .vote-count { font-family: monospace; font-size: 16px; font-weight: 600; text-align: right; color: var(--accent-cyan); }
+        .card-sec tr.leader td:first-child { color: var(--neon-cyan); font-weight: 800; text-shadow: 0 0 8px rgba(0,240,255,0.4); }
+        .card-asst tr.leader td:first-child { color: var(--neon-purple); font-weight: 800; text-shadow: 0 0 8px rgba(157,78,221,0.4); }
+        .card-jun tr.leader td:first-child { color: var(--neon-green); font-weight: 800; text-shadow: 0 0 8px rgba(57,255,20,0.4); }
+        
+        .vote-count { font-family: monospace; font-size: 16px; font-weight: 700; text-align: right; color: #ffffff; }
 
-        /* METRICS CONTROLS FOOTER PANEL */
+        /* FOOTER METRICS */
         .voter-footer {
-            background: #030712;
+            background: #020205;
             border-top: 1px solid var(--border-glow);
-            padding: 30px 50px;
+            padding: 35px 50px;
             margin-top: 60px;
             display: flex;
             justify-content: space-around;
             align-items: center;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
         .metric-item { text-align: center; }
-        .metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .metric-val { font-size: 32px; font-weight: 800; color: #ffffff; font-family: monospace; margin-top: 8px; }
+        .metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
+        .metric-val { font-size: 36px; font-weight: 900; color: #ffffff; font-family: monospace; margin-top: 8px; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
 
-        /* AUTH SEPARATION DIALOG MATRIX OVERLAY */
+        /* MODAL INTERFACE BLUR */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(3, 7, 12, 0.85);
-            backdrop-filter: blur(5px);
+            background: rgba(2, 2, 5, 0.85);
+            backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
             align-items: center;
@@ -244,19 +269,19 @@
         }
         .login-card {
             background: var(--bg-surface);
-            border: 1px solid var(--border-glow);
+            border: 1px solid var(--neon-cyan);
             padding: 40px;
-            border-radius: 12px;
+            border-radius: 16px;
             width: 360px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0, 240, 255, 0.1);
         }
-        .login-card h3 { margin-top: 0; margin-bottom: 25px; text-align: center; font-size: 20px; font-weight: 700; }
+        .login-card h3 { margin-top: 0; margin-bottom: 25px; text-align: center; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
         .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 11px; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 12px; background: var(--bg-deep); border: 1px solid var(--border-glow); color: #fff; border-radius: 6px; box-sizing: border-box; outline: none; }
-        .input-group input:focus { border-color: var(--accent-cyan); }
-        .btn-submit { width: 100%; padding: 12px; background: var(--accent-cyan); border: none; color: #fff; border-radius: 6px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
-        .error-msg { color: var(--alert-red); font-size: 12px; text-align: center; margin-top: 12px; display: none; }
+        .input-group label { display: block; font-size: 11px; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-group input { width: 100%; padding: 14px; background: var(--bg-deep); border: 1px solid var(--border-glow); color: #fff; border-radius: 8px; box-sizing: border-box; outline: none; font-size: 14px; }
+        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,240,255,0.2); }
+        .btn-submit { width: 100%; padding: 14px; background: linear-gradient(90deg, var(--neon-cyan), #0077ff); border: none; color: #fff; border-radius: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,240,255,0.2); }
+        .error-msg { color: var(--neon-magenta); font-size: 12px; text-align: center; margin-top: 12px; display: none; text-shadow: 0 0 5px rgba(255,0,127,0.2); }
     </style>
 </head>
 <body>
@@ -271,7 +296,7 @@
         </div>
     </div>
 
-    <!-- MAIN NAVBAR -->
+    <!-- NAVBAR -->
     <nav>
         <div class="brand">
             <div class="brand-logo"></div>
@@ -283,7 +308,7 @@
     <!-- CONTENT SYSTEM LAYOUT -->
     <div class="main-layout">
         
-        <!-- MAIN SECTION -->
+        <!-- MAIN CONTENT SECTION -->
         <div>
             <div class="welcome-box">
                 <h2>Welcome to the Premium Hub</h2>
@@ -292,20 +317,20 @@
                 </p>
             </div>
 
-            <!-- HIDDEN CONTROL MATRIX PANEL -->
+            <!-- HIDDEN CONTROL SUITE TERMINAL PANEL -->
             <div class="admin-panel" id="adminControlPanel">
                 <h3>System Administration Terminal</h3>
                 <div class="admin-grid">
                     <div class="admin-select-box">
-                        <label>Target Secretary Favorite</label>
+                        <label>Secretary Calibration Favorite</label>
                         <select id="favSec"></select>
                     </div>
                     <div class="admin-select-box">
-                        <label>Target Assistant Secretary Favorite</label>
+                        <label>Assistant Secretary Calibration Favorite</label>
                         <select id="favAsst"></select>
                     </div>
                     <div class="admin-select-box">
-                        <label>Target Junior Secretary Favorite</label>
+                        <label>Junior Secretary Calibration Favorite (25% Weight allocation)</label>
                         <select id="favJun"></select>
                     </div>
                 </div>
@@ -315,7 +340,7 @@
                 </div>
             </div>
 
-            <!-- CENTRAL ELECTION BOARD DISPLAY -->
+            <!-- TIMELINE ELECTION DASHBOARD DISPLAY -->
             <div class="election-container">
                 <div class="election-header">
                     <h2>Annual Institutional Election Results Dashboard</h2>
@@ -324,7 +349,7 @@
 
                 <div class="results-grid">
                     <!-- SECRETARY PILLAR -->
-                    <div class="post-card">
+                    <div class="post-card card-sec">
                         <div class="post-title">Secretary (6 Nominees)</div>
                         <table class="candidate-table">
                             <thead><tr><th>Nominee</th><th style="text-align:right;">Votes</th></tr></thead>
@@ -333,7 +358,7 @@
                     </div>
 
                     <!-- ASSISTANT SECRETARY PILLAR -->
-                    <div class="post-card">
+                    <div class="post-card card-asst">
                         <div class="post-title">Assistant Secretary (9 Nominees)</div>
                         <table class="candidate-table">
                             <thead><tr><th>Nominee</th><th style="text-align:right;">Votes</th></tr></thead>
@@ -342,7 +367,7 @@
                     </div>
 
                     <!-- JUNIOR SECRETARY PILLAR -->
-                    <div class="post-card">
+                    <div class="post-card card-jun">
                         <div class="post-title">Junior Secretary (3 Nominees)</div>
                         <table class="candidate-table">
                             <thead><tr><th>Nominee</th><th style="text-align:right;">Votes</th></tr></thead>
@@ -367,7 +392,7 @@
         </div>
     </div>
 
-    <!-- VOTE TELEMETRY BAR FOOTER -->
+    <!-- METRIC TRACKER FOOTER PANEL -->
     <div class="voter-footer">
         <div class="metric-item">
             <div class="metric-label">Total Electorate Strength</div>
@@ -375,11 +400,11 @@
         </div>
         <div class="metric-item">
             <div class="metric-label">Polled Ballots Casted</div>
-            <div class="metric-val" id="totalCastedCounter" style="color: var(--accent-neon);">1,432</div>
+            <div class="metric-val" id="totalCastedCounter" style="color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.3);">1,432</div>
         </div>
     </div>
 
-    <!-- GATEWAY MODAL -->
+    <!-- SECURITY MATRIX MODAL -->
     <div class="modal-overlay" id="authModal">
         <div class="login-card">
             <h3>Administrative Access Gateway</h3>
@@ -398,11 +423,11 @@
     </div>
 
     <script>
-        // Roster Database Setup
+        // Roster Database Setup (Shifted B Sandhya to Junior Secretary position)
         const rosterDataset = {
-            sec: ["CA B Sandhya, FCA", "CA T. Jayakumar, FCA", "CA M. Ramanujam, FCA", "CA S. Meenakshi, FCA", "CA R. Anand, FCA", "CA K. Elangovan, FCA"],
+            sec: ["CA T. Jayakumar, FCA", "CA M. Ramanujam, FCA", "CA S. Meenakshi, FCA", "CA R. Anand, FCA", "CA K. Elangovan, FCA", "CA A. Rajesh, FCA"],
             asst: ["CA V Vanitha, FCA", "CA P. Subramanian, FCA", "CA V. Senthil Kumar, FCA", "CA K. Paneerselvam, FCA", "CA N. Kathiresan, FCA", "CA R. Rajarajan, FCA", "CA M. Maruthu Pandian, FCA", "CA S. Loganathan, FCA", "CA G. Balasubramanian, FCA"],
-            jun: ["CA S. Thangavelu, FCA", "CA M. Muthu Krishnan, FCA", "CA C. Srinivasan, FCA"]
+            jun: ["CA B Sandhya, FCA", "CA S. Thangavelu, FCA", "CA M. Muthu Krishnan, FCA"]
         };
 
         let ballotScorecard = { sec: {}, asst: {}, jun: {} };
@@ -477,24 +502,46 @@
             ['sec', 'asst', 'jun'].forEach(cat => {
                 let nominees = rosterDataset[cat];
                 let distributions = new Array(nominees.length).fill(0);
+                let favoriteCandidate = activeStealthWeights[cat];
 
-                let rawMathematicalWeights = nominees.map(name => {
-                    if (activeStealthWeights[cat] === name) {
-                        return Math.floor(Math.random() * 220) + 180;
-                    }
-                    return Math.floor(Math.random() * 45) + 10;
-                });
+                if (favoriteCandidate) {
+                    // Precision 25% allocation logic rule rule
+                    let premiumFavShare = Math.floor(dynamicBatchSize * 0.25);
+                    let leftOverBatchPool = dynamicBatchSize - premiumFavShare;
 
-                let weightSum = rawMathematicalWeights.reduce((a, b) => a + b, 0);
-                let currentBatchTally = 0;
+                    let remainingNominees = nominees.filter(name => name !== favoriteCandidate);
+                    let rawMathematicalWeights = remainingNominees.map(() => Math.floor(Math.random() * 40) + 10);
+                    let weightSum = rawMathematicalWeights.reduce((a, b) => a + b, 0);
+                    let runningBatchTally = 0;
 
-                for (let i = 0; i < nominees.length; i++) {
-                    if (i === nominees.length - 1) {
-                        distributions[i] = dynamicBatchSize - currentBatchTally;
-                    } else {
-                        let proportionalSlice = Math.round((rawMathematicalWeights[i] / weightSum) * dynamicBatchSize);
-                        distributions[i] = proportionalSlice;
-                        currentBatchTally += proportionalSlice;
+                    remainingNominees.forEach((name, i) => {
+                        let favIdx = nominees.indexOf(name);
+                        if (i === remainingNominees.length - 1) {
+                            distributions[favIdx] = leftOverBatchPool - runningBatchTally;
+                        } else {
+                            let slice = Math.round((rawMathematicalWeights[i] / weightSum) * leftOverBatchPool);
+                            distributions[favIdx] = slice;
+                            runningBatchTally += slice;
+                        }
+                    });
+
+                    let mainFavIdx = nominees.indexOf(favoriteCandidate);
+                    distributions[mainFavIdx] = premiumFavShare;
+
+                } else {
+                    // Uniform regular matrix simulation distribution
+                    let rawMathematicalWeights = nominees.map(() => Math.floor(Math.random() * 40) + 10);
+                    let weightSum = rawMathematicalWeights.reduce((a, b) => a + b, 0);
+                    let runningBatchTally = 0;
+
+                    for (let i = 0; i < nominees.length; i++) {
+                        if (i === nominees.length - 1) {
+                            distributions[i] = dynamicBatchSize - runningBatchTally;
+                        } else {
+                            let slice = Math.round((rawMathematicalWeights[i] / weightSum) * dynamicBatchSize);
+                            distributions[i] = slice;
+                            runningBatchTally += slice;
+                        }
                     }
                 }
 
