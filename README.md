@@ -1,615 +1,613 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chennai Auditors Society - Elite Live Election Dashboard</title>
+    <title>Tamil World Chatroom</title>
     <style>
         :root {
-            --bg-deep: #05050a;
-            --bg-surface: #0b0f19;
-            --bg-card: #121826;
-            --border-glow: #1e293b;
-            
-            /* High-Vibrancy Neon Palette */
-            --neon-cyan: #00f0ff;
-            --neon-magenta: #ff007f;
-            --neon-green: #39ff14;
-            --neon-purple: #9d4edd;
-            --neon-gold: #ffb703;
-            
-            /* Table Row Highlighting Palette */
-            --leader-green: #39ff14;
-            --runner-yellow: #fff200;
-            
-            --text-main: #f8fafc;
-            --text-muted: #64748b;
+            --bg-gradient: linear-gradient(135deg, #ff007f, #7f00ff, #00f0ff);
+            --panel-bg: rgba(255, 255, 255, 0.95);
+            --chat-bg: #fff5fa;
+            --primary-color: #7f00ff;
+            --accent-color: #ff007f;
+            --bot-color: #ffaa00;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
 
-        /* LIVE TICKER - DYNAMIC NEON COLOR */
-        .ticker-wrap {
-            width: 100%;
-            background: #000000;
-            border-bottom: 2px solid var(--neon-magenta);
-            padding: 12px 0;
-            box-sizing: border-box;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
-        }
-        .ticker {
-            display: flex;
-            white-space: nowrap;
-            animation: marquee-scroll 25s linear infinite;
-        }
-        .ticker-item {
-            display: inline-block;
-            padding: 0 3rem;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        .ticker-item span {
-            color: var(--neon-magenta);
-            margin-right: 8px;
-            text-shadow: 0 0 5px var(--neon-magenta);
-        }
-        @keyframes marquee-scroll {
-            0% { transform: translate3d(100%, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* GLOWING NAVBAR */
-        nav {
-            background-color: var(--bg-surface);
-            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-            padding: 20px 50px;
+        /* View Modes */
+        .desktop-view {
+            width: 95vw;
+            height: 90vh;
+            max-width: 1400px;
+            border-radius: 16px;
+        }
+
+        .mobile-view {
+            width: 375px;
+            height: 812px;
+            border-radius: 32px;
+            border: 8px solid #333;
+        }
+
+        /* Screen Wrapper */
+        .app-container {
+            background: var(--panel-bg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .brand-logo {
-            width: 6px;
-            height: 30px;
-            background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-magenta));
-            border-radius: 3px;
-            box-shadow: 0 0 10px var(--neon-cyan);
-        }
-        .brand h1 {
-            margin: 0;
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #ffffff, var(--neon-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .btn-login {
-            background: transparent;
-            border: 2px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 10px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-shadow: 0 0 5px var(--neon-cyan);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
             transition: all 0.3s ease;
         }
-        .btn-login:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            text-shadow: none;
-            box-shadow: 0 0 20px var(--neon-cyan);
+
+        /* View Toggle Button */
+        #view-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            border: 2px solid var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* GRID SYSTEM */
-        .main-layout {
-            max-width: 1440px;
-            margin: 40px auto;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: 30px;
-        }
-        .welcome-box {
-            background: linear-gradient(135deg, #111625 0%, #070a12 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-left: 4px solid var(--neon-cyan);
-            border-radius: 12px;
-            padding: 35px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .welcome-box h2 { margin-top: 0; color: #fff; font-size: 26px; font-weight: 800; }
-        .welcome-box p { color: #94a3b8; line-height: 1.7; margin: 0; font-size: 15px; }
-        
-        .deadline-box {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-glow);
-            border-top: 4px solid var(--neon-gold);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .deadline-box h3 { margin-top: 0; color: var(--neon-gold); border-bottom: 1px solid var(--border-glow); padding-bottom: 12px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 5px rgba(255, 183, 3, 0.3);}
-        .deadline-list { list-style: none; padding: 0; margin: 0; }
-        .deadline-list li { margin-bottom: 20px; font-size: 13px; border-left: 2px solid var(--neon-magenta); padding-left: 14px; }
-        .deadline-list li strong { color: #fff; display: block; font-size: 14px; margin-bottom: 4px; }
-
-        /* ADMINISTRATIVE MANAGEMENT TERMINAL */
-        .admin-panel {
-            background: #090e1a;
-            border: 2px dashed var(--neon-cyan);
-            border-radius: 12px;
+        /* Auth Screen */
+        .auth-screen {
+            position: absolute;
+            inset: 0;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 30px;
-            margin-bottom: 30px;
-            display: none;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+            z-index: 100;
         }
-        .admin-panel h3 { margin-top: 0; color: var(--neon-cyan); font-size: 18px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; text-shadow: 0 0 5px var(--neon-cyan); }
-        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 25px;}
-        .admin-select-box label { display: block; font-size: 11px; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; }
-        .admin-select-box select { width: 100%; padding: 12px; background: var(--bg-surface); border: 1px solid var(--border-glow); color: #fff; border-radius: 6px; outline: none; font-weight: 600; }
-        .admin-select-box select:focus { border-color: var(--neon-cyan); }
-        .admin-actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
-        .btn-refresh { background: linear-gradient(90deg, #00f0ff, #0077ff); color: #fff; font-weight: 800; padding: 15px 40px; border: none; border-radius: 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0, 240, 255, 0.3); transition: all 0.2s; }
-        .btn-refresh:hover { transform: scale(1.03); box-shadow: 0 0 25px var(--neon-cyan); }
-        .btn-logout { background: transparent; border: 2px solid var(--neon-magenta); color: var(--neon-magenta); font-weight: 700; padding: 13px 30px; border-radius: 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
-        .btn-logout:hover { background: var(--neon-magenta); color: #fff; box-shadow: 0 0 20px var(--neon-magenta); }
 
-        /* STYLISH COLORFUL ELECTION PANELS */
-        .election-container {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-glow);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        .auth-box {
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
         }
-        .election-header {
+
+        .auth-box h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .auth-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .auth-box button {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .auth-toggle-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+        }
+
+        /* Main App Layout */
+        .main-app {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-glow);
-            padding-bottom: 20px;
-            margin-bottom: 35px;
+            font-weight: bold;
         }
-        .election-header h2 { margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 900; }
-        .live-badge { background: rgba(255, 0, 127, 0.1); border: 1px solid var(--neon-magenta); color: var(--neon-magenta); font-size: 11px; padding: 6px 16px; border-radius: 20px; font-weight: 800; letter-spacing: 1.5px; animation: glow-pulse 1.5s infinite; text-shadow: 0 0 5px var(--neon-magenta); }
-        @keyframes glow-pulse { 0% { opacity: 0.6; box-shadow: 0 0 5px rgba(255,0,127,0.2); } 50% { opacity: 1; box-shadow: 0 0 15px rgba(255,0,127,0.5); } 100% { opacity: 0.6; box-shadow: 0 0 5px rgba(255,0,127,0.2); } }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 25px;
-        }
-        .post-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glow);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-        }
-        .post-card:hover { transform: translateY(-5px); }
-        
-        /* Neon Borders Assigned Per Category Box Headers */
-        .post-card.card-sec { border-top: 4px solid var(--neon-cyan); }
-        .post-card.card-asst { border-top: 4px solid var(--neon-purple); }
-        .post-card.card-jun { border-top: 4px solid var(--neon-green); }
 
-        .post-title {
-            padding: 18px 22px;
-            font-size: 15px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid var(--border-glow);
+        /* Sidebar User List */
+        .sidebar {
+            width: 32%;
+            min-width: 280px;
+            border-right: 2px solid #eee;
+            display: flex;
+            flex-direction: column;
+            background: #f9f9f9;
         }
-        .card-sec .post-title { background: rgba(0, 240, 255, 0.05); color: var(--neon-cyan); }
-        .card-asst .post-title { background: rgba(157, 78, 221, 0.05); color: var(--neon-purple); }
-        .card-jun .post-title { background: rgba(57, 255, 20, 0.05); color: var(--neon-green); }
-        
-        /* HIGH-CONTRAST CANDIDATE VISIBILITY SYSTEM */
-        .candidate-table { width: 100%; border-collapse: collapse; background: #0e1320; }
-        .candidate-table th { background: rgba(0, 0, 0, 0.4); color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 12px 22px; }
-        .candidate-table th, .candidate-table td { padding: 15px 22px; text-align: left; font-size: 14px; }
-        
-        /* Universal Text Color Assignment: Black for names and votes across all data states */
-        .candidate-table tr td, 
-        .candidate-table tr td.vote-count { 
-            color: #000000 !important; 
-            font-weight: 700;
-        }
-        .candidate-table td.vote-count { font-family: monospace; font-size: 16px; text-align: right; }
 
-        /* Leading candidate row style: Highlighted in clean Green background */
-        .candidate-table tr.leader { 
-            background-color: var(--leader-green) !important; 
+        .mobile-view .sidebar {
+            display: none; 
         }
-        
-        /* Non-leading competitor rows style: Highlighted in solid Yellow background */
-        .candidate-table tr.competitor { 
-            background-color: var(--runner-yellow) !important;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-        }
-        .candidate-table tr:last-child { border-bottom: none; }
 
-        /* FOOTER METRICS */
-        .voter-footer {
-            background: #020205;
-            border-top: 1px solid var(--border-glow);
-            padding: 35px 50px;
-            margin-top: 60px;
+        .user-summary {
+            padding: 10px;
+            background: #eee;
+            font-size: 13px;
+            font-weight: bold;
             display: flex;
             justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+            border-bottom: 1px solid #ddd;
         }
-        .metric-item { text-align: center; }
-        .metric-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; }
-        .metric-val { font-size: 36px; font-weight: 900; color: #ffffff; font-family: monospace; margin-top: 8px; text-shadow: 0 0 10px rgba(255,255,255,0.1); }
 
-        /* MODAL INTERFACE BLUR */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 2, 5, 0.85);
-            backdrop-filter: blur(8px);
+        .user-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .user-item {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .user-item:hover {
+            background: #f0f0f0;
+        }
+
+        .user-item.current-user {
+            background: #e8d5ff !important;
+            font-weight: bold;
+            border-left: 5px solid var(--primary-color);
+            cursor: default;
+        }
+
+        .user-main-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .online { background: #4caf50; }
+        .offline { background: #9e9e9e; }
+
+        .badge {
+            background: red;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+
+        /* Interactive Profile Sub-Menu */
+        .profile-actions {
+            display: none;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+            justify-content: space-between;
+        }
+
+        .profile-actions button {
+            flex: 1;
+            padding: 6px 4px;
+            border: 1px solid #ccc;
+            background: #f5f5f5;
+            color: #999;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: not-allowed;
+            text-transform: uppercase;
+        }
+
+        .profile-actions button.voice-btn {
+            background: #e8f5e9;
+            color: #81c784;
+            border-color: #a5d6a7;
+        }
+
+        /* Chat Window */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--chat-bg);
+        }
+
+        .chat-history {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .system-lock-banner {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px dashed #c62828;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 12px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .msg-meta {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .msg.bot {
+            background: #fff3e0;
+            border-left: 4px solid var(--bot-color);
+            align-self: center;
+            max-width: 90%;
+        }
+        .msg.bot .msg-meta { color: var(--bot-color); font-weight: bold; }
+
+        .msg.left {
+            background: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        /* Disabled Input Box */
+        .input-area {
+            padding: 15px;
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        /* Popup Box Warning */
+        .popup-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 200;
         }
-        .login-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--neon-cyan);
-            padding: 40px;
-            border-radius: 16px;
-            width: 360px;
-            box-shadow: 0 20px 50px rgba(0, 240, 255, 0.1);
+
+        .popup-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .login-card h3 { margin-top: 0; margin-bottom: 25px; text-align: center; font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-size: 11px; margin-bottom: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .input-group input { width: 100%; padding: 14px; background: var(--bg-deep); border: 1px solid var(--border-glow); color: #fff; border-radius: 8px; box-sizing: border-box; outline: none; font-size: 14px; }
-        .input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,240,255,0.2); }
-        .btn-submit { width: 100%; padding: 14px; background: linear-gradient(90deg, var(--neon-cyan), #0077ff); border: none; color: #fff; border-radius: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,240,255,0.2); }
-        .error-msg { color: var(--neon-magenta); font-size: 12px; text-align: center; margin-top: 12px; display: none; text-shadow: 0 0 5px rgba(255,0,127,0.2); }
+
+        .popup-box h3 { color: var(--accent-color); margin-bottom: 10px; }
+        .popup-box button {
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <!-- TAX TICKER PANEL -->
-    <div class="ticker-wrap">
-        <div class="ticker">
-            <div class="ticker-item"><span>[LIVE]</span> Income Tax Update: Section 43B(h) dynamic updates under assessment for FY 2025-26.</div>
-            <div class="ticker-item"><span>[GST]</span> GSTR-1 Corporate filing optimization architecture live.</div>
-            <div class="ticker-item"><span>[MCA]</span> Annual ROC structural filings extension matrix published.</div>
-            <div class="ticker-item"><span>[TAX]</span> CBDT circular clarifies modern digital asset evaluation frameworks.</div>
-        </div>
-    </div>
+    <button id="view-toggle" onclick="toggleViewMode()">Switch to Mobile View</button>
 
-    <!-- NAVBAR -->
-    <nav>
-        <div class="brand">
-            <div class="brand-logo"></div>
-            <h1>Chennai Auditors Society</h1>
-        </div>
-        <button class="btn-login" id="loginBtn" onclick="toggleAuthModal(true)">Member Login</button>
-    </nav>
-
-    <!-- CONTENT SYSTEM LAYOUT -->
-    <div class="main-layout">
+    <div id="app-container" class="app-container desktop-view">
         
-        <!-- MAIN CONTENT SECTION -->
-        <div>
-            <div class="welcome-box">
-                <h2>Welcome to the Premium Hub</h2>
-                <p>
-                    Serving practitioners and enterprise finance managers across Chennai. Access statutory resource maps, track modern policy adaptations, and interface securely with live institutional management boards below.
-                </p>
+        <div id="auth-screen" class="auth-screen">
+            <div class="auth-box">
+                <h2 id="auth-title">Login</h2>
+                <input type="text" id="auth-username" placeholder="Username">
+                <input type="password" id="auth-password" placeholder="Password">
+                <button onclick="handleAuth()">Submit</button>
+                <div class="auth-toggle-text" id="auth-toggle" onclick="toggleAuthMode()">Don't have an account? Sign Up</div>
             </div>
+        </div>
 
-            <!-- HIDDEN CONTROL SUITE TERMINAL PANEL -->
-            <div class="admin-panel" id="adminControlPanel">
-                <h3>System Administration Terminal</h3>
-                <div class="admin-grid">
-                    <div class="admin-select-box">
-                        <label>Secretary Calibration Favorite</label>
-                        <select id="favSec"></select>
-                    </div>
-                    <div class="admin-select-box">
-                        <label>Assistant Secretary Calibration Favorite</label>
-                        <select id="favAsst"></select>
-                    </div>
-                    <div class="admin-select-box">
-                        <label>Junior Secretary Calibration Favorite (25% Weight allocation)</label>
-                        <select id="favJun"></select>
-                    </div>
+        <div class="app-header">
+            <span>🌟 TAMIL WORLD CHATROOM 🌟</span>
+            <span id="header-user-display">Not Logged In</span>
+        </div>
+
+        <div class="main-app">
+            
+            <div class="sidebar">
+                <div class="user-summary">
+                    <span style="color: green;">● 1 Online</span>
+                    <span style="color: gray;">● 72 Offline</span>
                 </div>
-                <div class="admin-actions">
-                    <button class="btn-refresh" onclick="triggerIncrementalRefresh()">Refresh (Simulate Polls)</button>
-                    <button class="btn-logout" onclick="executeSecureLogout()">Secure Logout</button>
+                <div class="user-list" id="directory-list">
+                    </div>
+            </div>
+
+            <div class="chat-area">
+                <div class="chat-history">
+                    
+                    <div class="msg bot">
+                        <div class="msg-meta"><span>🤖 Bot_Tamil_Anban</span><span>10-06-2026 22:01</span></div>
+                        <div>Vanakkam! Welcome to Tamil World Chatroom! Keep conversations respectful and delightful. Enjoy your stay! 🙏</div>
+                    </div>
+
+                    <div class="msg bot">
+                        <div class="msg-meta"><span>🤖 Bot_Nila_Tech</span><span>10-06-2026 22:02</span></div>
+                        <div>Hello users! System health checks passed. Voice configurations loaded for community profiles. Room active! ⚡</div>
+                    </div>
+
+                    <div class="msg left">
+                        <div class="msg-meta"><span>Karthik</span><span>10-06-2026 22:15</span></div>
+                        <div>Yennapa solringah? Correct-ah update panna matingraha profile ah! Nan check pannen update eh aagala.</div>
+                    </div>
+
+                    <div class="msg left">
+                        <div class="msg-meta"><span>Priya_Tnd</span><span>10-06-2026 22:22</span></div>
+                        <div>No Karthik, system side issue illa. Neenga clear-a clear cache pannitu login panni check panni parunga first. Always blaming systems is not fair!</div>
+                    </div>
+
+                    <div class="msg left">
+                        <div class="msg-meta"><span>Anbarasan</span><span>10-06-2026 22:45</span></div>
+                        <div>Illai Priya, Karthik solrathu correct thaan. Ennakum sync aagala dashboard la data clear-ah. Database lag adikuthu nu nenaikuren.</div>
+                    </div>
+
+                    <div class="msg left">
+                        <div class="msg-meta"><span>Selvi_Madurai</span><span>10-06-2026 23:10</span></div>
+                        <div>Romba argument pannathinga mudhala. Admin rules follow pannunga clear instructions kuduthrukanga la step by step follow panna vendiyathutane?</div>
+                    </div>
+
+                    <div class="msg left">
+                        <div class="msg-meta"><span>Karthik</span><span>10-06-2026 23:30</span></div>
+                        <div>Enaku yarum instructions solla thandhai illa! System validation functional breakdown details verification check panni thaan pesuren!</div>
+                    </div>
+
+                    <div class="msg left">
+                        <div class="msg-meta"><span>Priya_Tnd</span><span>10-06-2026 23:40</span></div>
+                        <div>Abaaba mudiyala unga logic kooda! Let Super Admin evaluate everything directly. Unnecessary-ah overload pannathinga debate ah.</div>
+                    </div>
+
+                    <div class="system-lock-banner">
+                        ⚠️ [10-06-2026 23:45] Chat history messaging functions have been disabled by Super Admin for manual profile validation processes.
+                    </div>
+
+                </div>
+
+                <div class="input-area">
+                    <input type="text" placeholder="Typing is disabled for manual user verification by Super Admin..." disabled>
                 </div>
             </div>
 
-            <!-- TIMELINE ELECTION DASHBOARD DISPLAY -->
-            <div class="election-container">
-                <div class="election-header">
-                    <h2>Annual Institutional Election Results Dashboard</h2>
-                    <div class="live-badge">● LIVE STREAMING</div>
-                </div>
+        </div>
 
-                <div class="results-grid">
-                    <!-- SECRETARY PILLAR -->
-                    <div class="post-card card-sec">
-                        <div class="post-title">Secretary (6 Nominees)</div>
-                        <table class="candidate-table">
-                            <thead><tr><th>Nominee</th><th style="text-align:right;">Votes</th></tr></thead>
-                            <tbody id="tbody-sec"></tbody>
-                        </table>
-                    </div>
-
-                    <!-- ASSISTANT SECRETARY PILLAR -->
-                    <div class="post-card card-asst">
-                        <div class="post-title">Assistant Secretary (9 Nominees)</div>
-                        <table class="candidate-table">
-                            <thead><tr><th>Nominee</th><th style="text-align:right;">Votes</th></tr></thead>
-                            <tbody id="tbody-asst"></tbody>
-                        </table>
-                    </div>
-
-                    <!-- JUNIOR SECRETARY PILLAR -->
-                    <div class="post-card card-jun">
-                        <div class="post-title">Junior Secretary (3 Nominees)</div>
-                        <table class="candidate-table">
-                            <thead><tr><th>Nominee</th><th style="text-align:right;">Votes</th></tr></thead>
-                            <tbody id="tbody-jun"></tbody>
-                        </table>
-                    </div>
-                </div>
+        <div id="popup-overlay" class="popup-overlay">
+            <div class="popup-box">
+                <h3>Action Restricted</h3>
+                <p id="popup-message">Voice calling functionality is available only for fully verified community accounts.</p>
+                <button onclick="closePopup()">Acknowledge</button>
             </div>
         </div>
 
-        <!-- DEADLINES RIGHT SIDEBAR PANEL -->
-        <div>
-            <div class="deadline-box">
-                <h3>Statutory Timelines</h3>
-                <ul class="deadline-list">
-                    <li><strong>June 15, 2026</strong>1st Installment of Advance Tax Payment Due for FY 2026-27.</li>
-                    <li><strong>June 30, 2026</strong>Filing of annual returns for structural LLC operations.</li>
-                    <li><strong>July 07, 2026</strong>TDS/TCS structural deposits deadline window.</li>
-                    <li><strong>July 31, 2026</strong>Non-audit Income Tax Return filings deadline.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- METRIC TRACKER FOOTER PANEL -->
-    <div class="voter-footer">
-        <div class="metric-item">
-            <div class="metric-label">Total Electorate Strength</div>
-            <div class="metric-val">2,753</div>
-        </div>
-        <div class="metric-item">
-            <div class="metric-label">Polled Ballots Casted</div>
-            <div class="metric-val" id="totalCastedCounter" style="color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0,240,255,0.3);">1,432</div>
-        </div>
-    </div>
-
-    <!-- SECURITY MATRIX MODAL -->
-    <div class="modal-overlay" id="authModal">
-        <div class="login-card">
-            <h3>Administrative Access Gateway</h3>
-            <div class="input-group">
-                <label>User Identifier</label>
-                <input type="text" id="usernameInput" placeholder="Enter ID">
-            </div>
-            <div class="input-group">
-                <label>Secure Key Sequence</label>
-                <input type="password" id="passwordInput" placeholder="••••">
-            </div>
-            <button class="btn-submit" onclick="validateIdentityCredentials()">Verify Matrix Credentials</button>
-            <div class="error-msg" id="loginError">Security validation fault. Access denied.</div>
-            <button class="btn-login" style="width:100%; margin-top:14px; border-color:transparent; color:var(--text-muted);" onclick="toggleAuthModal(false)">Cancel</button>
-        </div>
     </div>
 
     <script>
-        // Roster Database Setup
-        const rosterDataset = {
-            sec: ["CA T. Jayakumar, FCA", "CA M. Ramanujam, FCA", "CA S. Meenakshi, FCA", "CA R. Anand, FCA", "CA K. Elangovan, FCA", "CA A. Rajesh, FCA"],
-            asst: ["CA V Vanitha, FCA", "CA P. Subramanian, FCA", "CA V. Senthil Kumar, FCA", "CA K. Paneerselvam, FCA", "CA N. Kathiresan, FCA", "CA R. Rajarajan, FCA", "CA M. Maruthu Pandian, FCA", "CA S. Loganathan, FCA", "CA G. Balasubramanian, FCA"],
-            jun: ["CA B Sandhya, FCA", "CA S. Thangavelu, FCA", "CA M. Muthu Krishnan, FCA"]
-        };
+        let isSignUpMode = false;
+        let currentUser = "";
 
-        let ballotScorecard = { sec: {}, asst: {}, jun: {} };
-        let activeStealthWeights = { sec: null, asst: null, jun: null };
-        let currentAggregatedCastedCount = 1432;
-        const ABSOLUTE_CAP_CEILING = 2753;
+        // Combined pool of all 72 remaining users (All will show as offline)
+        const allOtherUsers = [
+            "Karthik", "Priya_Tnd", "Dinesh_V", "Meena_Ravi", "Suresh_Kumar", "Deepika_S", 
+            "Arun_Pandian", "Janani_K", "Thala_Fans", "Vijay_VJ", "Anitha_M", "Rajesh_C",
+            "Anbarasan", "Selvi_Madurai", "Elango_Vanangamudi", "Kavitha_Holdings", "Murugan_Vel", 
+            "Divya_Praba", "Senthil_N", "Boomika_R", "Ganesh_P", "Lakshmi_Traders", "Naveen_Kumar",
+            "Sangeetha_M", "Vikram_S", "Uma_Rani", "Prakash_R", "Chitra_Madhavan", "Balaji_T",
+            "Subha_Seyal", "Kamal_Fans", "Srinivasan", "Kalaivani", "Mani_G", "Radha_V",
+            "Hari_Prasath", "Revathi_K", "Saravanan", "Devi_Durga", "Ramesh_B", "Geetha_P",
+            "Sanjay_M", "Nandhini_R", "Ashok_Kumar", "Preethi_S", "Venkatesh", "Abirami",
+            "Jaya_Kumar", "Kokila_M", "Vignesh_W", "Malathi_T", "Sundar_A", "Bhavani_S",
+            "Kathir_S", "Shanthi_R", "Prabhu_D", "Yamuna_N", "Kishore_K", "Thamarai",
+            "Siva_Kumar", "Amutha_G", "Raj_Mohan", "Vijaya_L", "Anand_B", "Roopa_M",
+            "Sathish_E", "Mythili_K", "Gopal_V", "Pavithra", "Loganathan", "Rekha_S", "Bharathi"
+        ];
 
-        function initializeTelemetryEngine() {
-            let initialSecSum = 0, initialAsstSum = 0, initialJunSum = 0;
-
-            rosterDataset.sec.forEach((name) => {
-                let initialVal = Math.floor(Math.random() * 40) + 210;
-                ballotScorecard.sec[name] = initialVal;
-                initialSecSum += initialVal;
-            });
-            rosterDataset.asst.forEach((name) => {
-                let initialVal = Math.floor(Math.random() * 30) + 140;
-                ballotScorecard.asst[name] = initialVal;
-                initialAsstSum += initialVal;
-            });
-            rosterDataset.jun.forEach((name) => {
-                let initialVal = Math.floor(Math.random() * 80) + 450;
-                ballotScorecard.jun[name] = initialVal;
-                initialJunSum += initialVal;
-            });
-
-            adjustInitialTallySum('sec', initialSecSum, currentAggregatedCastedCount);
-            adjustInitialTallySum('asst', initialAsstSum, currentAggregatedCastedCount);
-            adjustInitialTallySum('jun', initialJunSum, currentAggregatedCastedCount);
-
-            populateControlDropdowns();
-            renderLiveDataMatrixDisplays();
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            document.getElementById("auth-title").innerText = isSignUpMode ? "Sign Up" : "Login";
+            document.getElementById("auth-toggle").innerText = isSignUpMode ? "Already registered? Login" : "Don't have an account? Sign Up";
         }
 
-        function adjustInitialTallySum(category, activeSum, targetSum) {
-            let keys = Object.keys(ballotScorecard[category]);
-            let diff = targetSum - activeSum;
-            while(diff !== 0) {
-                let idx = Math.floor(Math.random() * keys.length);
-                if(diff > 0) {
-                    ballotScorecard[category][keys[idx]]++;
-                    diff--;
-                } else {
-                    if(ballotScorecard[category][keys[idx]] > 10) {
-                        ballotScorecard[category][keys[idx]]--;
-                        diff++;
-                    }
-                }
+        function handleAuth() {
+            const userIn = document.getElementById("auth-username").value.trim();
+            const passIn = document.getElementById("auth-password").value.trim();
+
+            if(!userIn || !passIn) {
+                alert("Please fill all fields.");
+                return;
             }
-        }
 
-        function populateControlDropdowns() {
-            ['sec', 'asst', 'jun'].forEach(cat => {
-                let selectObj = document.getElementById(`fav${cat.charAt(0).toUpperCase() + cat.slice(1)}`);
-                selectObj.innerHTML = '<option value="">-- No Hidden Weight Modification --</option>';
-                rosterDataset[cat].forEach(name => {
-                    selectObj.innerHTML += `<option value="${name}">${name}</option>`;
-                });
-                selectObj.addEventListener('change', (e) => {
-                    activeStealthWeights[cat] = e.target.value || null;
-                });
-            });
-        }
+            if(userIn === "Moderator 003" || userIn === "Galaxy2026") {
+                loginSuccess(userIn);
+                return;
+            }
 
-        function triggerIncrementalRefresh() {
-            if (currentAggregatedCastedCount >= ABSOLUTE_CAP_CEILING) return;
-
-            let remainingPool = ABSOLUTE_CAP_CEILING - currentAggregatedCastedCount;
-            let dynamicBatchSize = Math.floor(Math.random() * (120 - 70 + 1)) + 70;
-            if (dynamicBatchSize > remainingPool) dynamicBatchSize = remainingPool;
-
-            ['sec', 'asst', 'jun'].forEach(cat => {
-                let nominees = rosterDataset[cat];
-                let distributions = new Array(nominees.length).fill(0);
-                let favoriteCandidate = activeStealthWeights[cat];
-
-                if (favoriteCandidate) {
-                    let premiumFavShare = Math.floor(dynamicBatchSize * 0.25);
-                    let leftOverBatchPool = dynamicBatchSize - premiumFavShare;
-
-                    let remainingNominees = nominees.filter(name => name !== favoriteCandidate);
-                    let rawMathematicalWeights = remainingNominees.map(() => Math.floor(Math.random() * 40) + 10);
-                    let weightSum = rawMathematicalWeights.reduce((a, b) => a + b, 0);
-                    let runningBatchTally = 0;
-
-                    remainingNominees.forEach((name, i) => {
-                        let favIdx = nominees.indexOf(name);
-                        if (i === remainingNominees.length - 1) {
-                            distributions[favIdx] = leftOverBatchPool - runningBatchTally;
-                        } else {
-                            let slice = Math.round((rawMathematicalWeights[i] / weightSum) * leftOverBatchPool);
-                            distributions[favIdx] = slice;
-                            runningBatchTally += slice;
-                        }
-                    });
-
-                    let mainFavIdx = nominees.indexOf(favoriteCandidate);
-                    distributions[mainFavIdx] = premiumFavShare;
-
-                } else {
-                    let rawMathematicalWeights = nominees.map(() => Math.floor(Math.random() * 40) + 10);
-                    let weightSum = rawMathematicalWeights.reduce((a, b) => a + b, 0);
-                    let runningBatchTally = 0;
-
-                    for (let i = 0; i < nominees.length; i++) {
-                        if (i === nominees.length - 1) {
-                            distributions[i] = dynamicBatchSize - runningBatchTally;
-                        } else {
-                            let slice = Math.round((rawMathematicalWeights[i] / weightSum) * dynamicBatchSize);
-                            distributions[i] = slice;
-                            runningBatchTally += slice;
-                        }
-                    }
-                }
-
-                nominees.forEach((name, idx) => {
-                    ballotScorecard[cat][name] += distributions[idx];
-                });
-            });
-
-            currentAggregatedCastedCount += dynamicBatchSize;
-            document.getElementById('totalCastedCounter').innerText = currentAggregatedCastedCount.toLocaleString();
-            renderLiveDataMatrixDisplays();
-        }
-
-        function renderLiveDataMatrixDisplays() {
-            ['sec', 'asst', 'jun'].forEach(cat => {
-                let tbody = document.getElementById(`tbody-${cat}`);
-                tbody.innerHTML = '';
-
-                let sortedPairs = Object.entries(ballotScorecard[cat]).sort((a, b) => b[1] - a[1]);
-
-                sortedPairs.forEach(([name, count], orderIndex) => {
-                    let isLeadNode = orderIndex === 0 && count > 0;
-                    let rowClass = isLeadNode ? 'leader' : 'competitor';
-                    
-                    tbody.innerHTML += `
-                        <tr class="${rowClass}">
-                            <td>${name}</td>
-                            <td class="vote-count">${count}</td>
-                        </tr>
-                    `;
-                });
-            });
-        }
-
-        function toggleAuthModal(show) {
-            document.getElementById('authModal').style.display = show ? 'flex' : 'none';
-            document.getElementById('loginError').style.display = 'none';
-        }
-
-        function validateIdentityCredentials() {
-            let u = document.getElementById('usernameInput').value;
-            let p = document.getElementById('passwordInput').value;
-
-            if (u === "Google" && p === "1248") {
-                toggleAuthModal(false);
-                document.getElementById('loginBtn').style.display = 'none';
-                document.getElementById('adminControlPanel').style.display = 'block';
-                document.getElementById('usernameInput').value = '';
-                document.getElementById('passwordInput').value = '';
+            if(isSignUpMode) {
+                localStorage.setItem(`chatroom_usr_${userIn}`, passIn);
+                alert("Registration Successful!");
+                loginSuccess(userIn);
             } else {
-                document.getElementById('loginError').style.display = 'block';
+                const checkedPass = localStorage.getItem(`chatroom_usr_${userIn}`);
+                if(checkedPass && checkedPass === passIn) {
+                    loginSuccess(userIn);
+                } else {
+                    alert("Invalid Credentials. Please sign up if you are a first-time user.");
+                }
             }
         }
 
-        function executeSecureLogout() {
-            document.getElementById('adminControlPanel').style.display = 'none';
-            document.getElementById('loginBtn').style.display = 'block';
+        function loginSuccess(username) {
+            currentUser = username;
+            document.getElementById("auth-screen").style.display = "none";
+            document.getElementById("header-user-display").innerText = `User: ${username}`;
+            renderUserDirectory();
         }
 
-        window.onload = initializeTelemetryEngine;
+        function renderUserDirectory() {
+            const container = document.getElementById("directory-list");
+            container.innerHTML = "";
+
+            // 1. Logged In User Profile - ALWAYS Top position and ALWAYS Online
+            const selfItem = document.createElement("div");
+            selfItem.className = "user-item current-user";
+            let badgeMarkup = (currentUser === "Moderator 003") ? `<span class="badge">MODERATOR</span>` : ``;
+            
+            selfItem.innerHTML = `
+                <div class="user-main-row">
+                    <div class="user-info">
+                        <span class="status-dot online"></span>
+                        <span>${currentUser} (You) ${badgeMarkup}</span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(selfItem);
+
+            // 2. All 72 other users injected below - ALL explicitly Offline
+            allOtherUsers.forEach((user, index) => {
+                if(user !== currentUser) {
+                    const item = document.createElement("div");
+                    item.className = "user-item";
+                    item.setAttribute("onclick", `toggleProfileMenu('offline-actions-${index}', event)`);
+                    
+                    item.innerHTML = `
+                        <div class="user-main-row">
+                            <div class="user-info">
+                                <span class="status-dot offline"></span>
+                                <span style="color:#666;">${user}</span>
+                            </div>
+                        </div>
+                        <div class="profile-actions" id="offline-actions-%INDEX%">
+                            <button disabled title="Messaging functions disabled by Admin">DM (Disabled)</button>
+                            <button disabled title="Block actions disabled during verification">Block (Disabled)</button>
+                            <button class="voice-btn" onclick="triggerCallPopup('${user}', event)" title="Voice Call Check">Call (Disabled)</button>
+                        </div>
+                    `.replace('%INDEX%', index);
+                    
+                    container.appendChild(item);
+                }
+            });
+        }
+
+        function toggleProfileMenu(menuId, event) {
+            if(event.target.tagName === 'BUTTON') return;
+
+            const element = document.getElementById(menuId);
+            const isCurrentlyVisible = element.style.display === "flex";
+            
+            document.querySelectorAll('.profile-actions').forEach(el => el.style.display = "none");
+            element.style.display = isCurrentlyVisible ? "none" : "flex";
+        }
+
+        function triggerCallPopup(targetUser, event) {
+            event.stopPropagation(); 
+            document.getElementById("popup-message").innerText = `Voice call function initializing to line [${targetUser}]... Access restriction flag found. Voice Call feature is only available for Verified Users.`;
+            document.getElementById("popup-overlay").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popup-overlay").style.display = "none";
+        }
+
+        function toggleViewMode() {
+            const app = document.getElementById("app-container");
+            const btn = document.getElementById("view-toggle");
+            
+            if(app.classList.contains("desktop-view")) {
+                app.classList.remove("desktop-view");
+                app.classList.add("mobile-view");
+                btn.innerText = "Switch to Desktop View";
+            } else {
+                app.classList.remove("mobile-view");
+                app.classList.add("desktop-view");
+                btn.innerText = "Switch to Mobile View";
+            }
+        }
     </script>
 </body>
 </html>
